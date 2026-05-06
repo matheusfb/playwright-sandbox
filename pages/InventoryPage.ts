@@ -7,6 +7,7 @@ export class InventoryPage {
   readonly orderList: Locator
   readonly productItem: Locator
   readonly menuButton: Locator
+  readonly listItems: Locator
 
 
   constructor(page: Page) {
@@ -16,6 +17,15 @@ export class InventoryPage {
     this.orderList = page.getByTestId('product-sort-container')
     this.productItem = page.getByRole('listitem')
     this.menuButton = page.getByRole('button', { name: 'Open Menu' })
+    this.listItems = page.locator('[data-test="inventory-item"]');
+  }
+
+  async addItemToCart(itemName: string): Promise<number> {
+    const item = this.listItems.filter({ hasText: itemName })
+    const priceText = await item.locator('[data-test="inventory-item-price"]').innerText();
+    const priceNumber = parseFloat(priceText.replace('$', ''));
+    await item.getByRole('button', { name: 'Add to cart', exact: true }).click();
+    return priceNumber;
   }
 
 }

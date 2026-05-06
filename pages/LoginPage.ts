@@ -21,9 +21,9 @@ export class LoginPage {
         await this.page.goto('https://www.saucedemo.com/')
     }
 
-    async doLogin(user: string, pass: string) {
+    async doLogin(user: string, password: string) {
         await this.usernameInput.fill(user);
-        await this.passwordInput.fill(pass);
+        await this.passwordInput.fill(password);
         await this.loginButton.click();
     }
 }
